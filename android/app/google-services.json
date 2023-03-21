@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "741170172423",
+    "project_id": "hydrow-4dcfc",
+    "storage_bucket": "hydrow-4dcfc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741170172423:android:e97f1ec671be6e2ea790a2",
+        "android_client_info": {
+          "package_name": "com.mycompany.hydrow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741170172423-vb5d1r76mg07r5h9ee2kudedipitu35g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.hydrow",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "741170172423-j8vo7ftos5e7hb85q8jihgf45unj6k80.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFNzHdUxz7VZbR8yYH1DzB1ZkaE55Si6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741170172423-j8vo7ftos5e7hb85q8jihgf45unj6k80.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "741170172423-41ph881hp02nro0bqp4lb76cjd1r5lk2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.hydrow"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
