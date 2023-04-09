@@ -26,6 +26,7 @@ class DashboardModel extends FlutterFlowModel {
   dynamic? boreWater;
   // Stores action output result for [Custom Action - callAPI] action in Button widget.
   double? waterLevel;
+  double? outputwater;
 
   /// Initialization and disposal methods.
 

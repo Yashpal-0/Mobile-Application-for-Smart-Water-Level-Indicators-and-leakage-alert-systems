@@ -6,7 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'auth/firebase_user_provider.dart';
 import 'auth/auth_util.dart';
-
+import 'dart:math';
+import 'dart:async';
 import 'backend/firebase/firebase_config.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
@@ -16,6 +17,8 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +29,12 @@ void main() async {
   if (!kIsWeb) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   }
+  WidgetsFlutterBinding.ensureInitialized();
+  var initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  var initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+  await FlutterLocalNotificationsPlugin().initialize(initializationSettings);
 
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
@@ -52,12 +61,25 @@ class _MyAppState extends State<MyApp> {
   late GoRouter _router;
 
   final authUserSub = authenticatedUserStream.listen((_) {});
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  late Timer _timer;
+  Random random = Random();
+  int randomNumber = 0;
 
   @override
   void initState() {
     super.initState();
     _appStateNotifier = AppStateNotifier();
     _router = createRouter(_appStateNotifier);
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+      setState(() {
+        randomNumber = random.nextInt(100) + 1;
+        if (randomNumber > 50) {
+          _showNotification();
+        }
+      });
+    });
     userStream = hydrowFirebaseUserStream()
       ..listen((user) => _appStateNotifier.update(user));
     jwtTokenStream.listen((_) {});
@@ -67,10 +89,28 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  Future<void> _showNotification() async {
+    var android = AndroidNotificationDetails(
+      'channel_id',
+      'Channel Name',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+    );
+    var platform = NotificationDetails(android: android);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Random Number',
+      'The generated number is $randomNumber',
+      platform,
+      payload: 'Welcome to the Local Notification demo',
+    );
+  }
+
   @override
   void dispose() {
     authUserSub.cancel();
-
+    _timer.cancel();
     super.dispose();
   }
 

@@ -75,7 +75,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
       key: scaffoldKey,
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Color(0xFF1F2229),
+        backgroundColor: Color.fromARGB(255, 0, 24, 29),
         automaticallyImplyLeading: true,
         title: Text(
           'Edit Profile',
@@ -104,7 +104,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                       EdgeInsetsDirectional.fromSTEB(15.0, 15.0, 15.0, 15.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFF1F2229),
+                      color: Color.fromARGB(255, 0, 24, 29),
                       borderRadius: BorderRadius.circular(25.0),
                     ),
                     child: Column(
@@ -126,7 +126,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                                         .bodyText1
                                         .override(
                                           fontFamily: 'Poppins',
-                                          color: Color(0xFF7E8083),
+                                          color: Color.fromARGB(255, 255, 255, 255),
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.w500,
                                           useGoogleFonts: GoogleFonts.asMap()
@@ -167,7 +167,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                                         .bodyText1
                                         .override(
                                           fontFamily: 'Poppins',
-                                          color: Color(0xFF7E8083),
+                                          color: Color.fromARGB(255, 255, 255, 255),
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.w500,
                                           useGoogleFonts: GoogleFonts.asMap()
@@ -179,7 +179,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                                         .bodyText1
                                         .override(
                                           fontFamily: 'Poppins',
-                                          color: Color(0xFF7E8083),
+                                          color: Color.fromARGB(255, 255, 255, 255),
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.w500,
                                           useGoogleFonts: GoogleFonts.asMap()
@@ -189,7 +189,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                                         ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: Color(0xFF7E8083),
+                                        color: Color.fromARGB(255, 255, 255, 255),
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(7.0),
@@ -247,7 +247,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                                         .bodyText1
                                         .override(
                                           fontFamily: 'Poppins',
-                                          color: Color(0xFF7E8083),
+                                          color: Color.fromARGB(255, 255, 255, 255),
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.w500,
                                           useGoogleFonts: GoogleFonts.asMap()
@@ -259,7 +259,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                                         .bodyText1
                                         .override(
                                           fontFamily: 'Poppins',
-                                          color: Color(0xFF7E8083),
+                                          color: Color.fromARGB(255, 255, 255, 255),
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.w500,
                                           useGoogleFonts: GoogleFonts.asMap()
@@ -269,14 +269,14 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                                         ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: Color(0xFF7E8083),
+                                        color: Color.fromARGB(255, 255, 255, 255),
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(7.0),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: Color(0x00000000),
+                                        color: Color.fromARGB(0, 255, 255, 255),
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(7.0),

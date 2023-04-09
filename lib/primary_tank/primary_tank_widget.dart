@@ -76,7 +76,7 @@ class _PrimaryTankWidgetState extends State<PrimaryTankWidget>
       key: scaffoldKey,
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Color(0xFF1F2229),
+        backgroundColor: Color.fromARGB(255, 0, 24, 29),
         automaticallyImplyLeading: true,
         title: Text(
           'Set Primary Tank',
@@ -107,7 +107,7 @@ class _PrimaryTankWidgetState extends State<PrimaryTankWidget>
                     width: 75.0,
                     height: 75.0,
                     child: SpinKitRipple(
-                      color: Color(0xFF7E8083),
+                      color: Color.fromARGB(255, 0, 24, 29),
                       size: 75.0,
                     ),
                   ),

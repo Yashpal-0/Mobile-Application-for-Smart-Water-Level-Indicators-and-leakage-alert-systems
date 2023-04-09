@@ -79,7 +79,7 @@ class _IndividualSummaryWidgetState extends State<IndividualSummaryWidget>
       key: scaffoldKey,
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Color(0xFF1F2229),
+        backgroundColor: Color.fromARGB(255, 0, 24, 29),
         automaticallyImplyLeading: true,
         actions: [],
         centerTitle: false,
@@ -102,7 +102,7 @@ class _IndividualSummaryWidgetState extends State<IndividualSummaryWidget>
                             15.0, 25.0, 15.0, 25.0),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFF1F2229),
+                            color: Color.fromARGB(255, 0, 24, 29),
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                           child: Column(

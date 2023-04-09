@@ -78,7 +78,7 @@ class _EditDeviceWidgetState extends State<EditDeviceWidget>
       key: scaffoldKey,
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Color(0xFF1F2229),
+        backgroundColor: Color.fromARGB(255, 0, 24, 29),
         automaticallyImplyLeading: true,
         title: Text(
           'Edit Device',
@@ -135,7 +135,7 @@ class _EditDeviceWidgetState extends State<EditDeviceWidget>
                           child: Container(
                             height: 100.0,
                             decoration: BoxDecoration(
-                              color: Color(0xFF1F2229),
+                              color: Color.fromARGB(255, 0, 24, 29),
                               borderRadius: BorderRadius.circular(25.0),
                             ),
                             child: Row(

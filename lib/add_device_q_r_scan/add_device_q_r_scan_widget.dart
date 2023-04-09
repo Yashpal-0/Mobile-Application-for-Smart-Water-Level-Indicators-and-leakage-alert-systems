@@ -70,7 +70,7 @@ class _AddDeviceQRScanWidgetState extends State<AddDeviceQRScanWidget>
       key: scaffoldKey,
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Color(0xFF1F2229),
+        backgroundColor: Color.fromARGB(255, 0, 24, 29),
         automaticallyImplyLeading: true,
         title: Text(
           'Add Device - QR Scan',
@@ -100,7 +100,7 @@ class _AddDeviceQRScanWidgetState extends State<AddDeviceQRScanWidget>
                       EdgeInsetsDirectional.fromSTEB(10.0, 250.0, 10.0, 0.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFF1F2229),
+                      color: Color.fromARGB(255, 0, 24, 29),
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 4.0,
@@ -132,7 +132,7 @@ class _AddDeviceQRScanWidgetState extends State<AddDeviceQRScanWidget>
                                       .bodyText1
                                       .override(
                                         fontFamily: 'Poppins',
-                                        color: Color(0xFF7E8083),
+                                        color: Color.fromARGB(255, 255, 255, 255),
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.w600,
                                         useGoogleFonts: GoogleFonts.asMap()

@@ -1,3 +1,4 @@
+import 'dart:async';
 import '../primary_tank/primary_tank_widget.dart';
 import '/auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -11,6 +12,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -29,10 +31,13 @@ import 'package:hydrow/tank_summary/tank_summary_widget.dart';
 class DashboardWidget extends StatefulWidget {
   const DashboardWidget({
     Key? key,
-    /*this.docReference*/
+    this.docReference,
+    this.waterLevel,
   }) : super(key: key);
 
   // final TankRecord? docReference;
+  final TankRecord? docReference;
+  final double? waterLevel;
 
   @override
   _DashboardWidgetState createState() => _DashboardWidgetState();
@@ -91,17 +96,21 @@ class _DashboardWidgetState extends State<DashboardWidget>
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+    
 
     List<Widget> pages = <Widget>[
       SingleChildScrollView(
-      child: Center(
+      // child: Center(
         child: Container(
           color: Colors.black,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Center(
-                child: Container(
+
+              // Center(
+                Stack(
+                children: [
+                  Container(
                   width: double.infinity,
                   height: 400.0,
                   padding: EdgeInsets.all(0),
@@ -117,19 +126,28 @@ class _DashboardWidgetState extends State<DashboardWidget>
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(0.0),
                   ),
-                  child: LiquidLinearProgressIndicator(
-                    value: 0.5,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      _getColor(0.3),
-                    ),
-                    backgroundColor: Colors.transparent,
-                    borderRadius: 1.0,
-                    borderWidth: 0.0,
-                    borderColor: Colors.blue[300]!,
-                    direction: Axis.vertical,
-                  ),
+                  child: custom_widgets.LiquidProgress(
+                          width: 1000,
+                          height: 1000,
+                        //   param: functions.tankAPI(
+                        //       functions.calculateWaterAvailable(
+                        //           widget.docReference!.length!,
+                        //           widget.docReference!.breadth!,
+                        //           widget.docReference!.height!,
+                        //           widget.docReference!.radius!,
+                        //           widget.waterLevel,
+                        //           widget.docReference!.isCuboid!),
+                        //       functions.calculateVolume(
+                        //           widget.docReference!.isCuboid!,
+                        //           widget.docReference!.length!,
+                        //           widget.docReference!.breadth!,
+                        //           widget.docReference!.height!,
+                        //           widget.docReference!.radius!)),
+                        ),
                 ),
-              ),
+                ],
+                ),
+              // ),
               // FlutterFlowWebView(
               //           url: functions.graph(widget.docReference!.tankKey),
               //           bypass: false,
@@ -137,24 +155,10 @@ class _DashboardWidgetState extends State<DashboardWidget>
               //           verticalScroll: false,
               //           horizontalScroll: false,
               //         ),
-              TopBar(),
-              // Container(
-              //   height: 400,
-              //   padding: EdgeInsets.all(0),
-              //   decoration: BoxDecoration(
-              //       gradient: LinearGradient(
-              //         colors: [
-              //           Colors.blue[300]!,
-              //           Colors.black!,
-              //         ],
-              //         begin: Alignment.topCenter,
-              //         end: Alignment.bottomCenter,
-              //       ),
-              //       shape: BoxShape.rectangle,
-              //       borderRadius: BorderRadius.circular(0.0),
-              //     ),
-              // child:
-              FFButtonWidget(
+              // TopBar(),
+              Align(
+                alignment: Alignment.centerLeft,
+              child: FFButtonWidget(
                 onPressed: () async {
                   _model.output = await actions.newCustomAction(
                     (currentUserDocument?.keyList?.toList() ?? []).toList(),
@@ -187,11 +191,12 @@ class _DashboardWidgetState extends State<DashboardWidget>
                       ),
                 ),
               ),
+              ),
               // ),
             ],
           ),
         ),
-      ),
+      // ),
       ),
       Icon(
         Icons.invert_colors,
@@ -300,17 +305,21 @@ class _DashboardWidgetState extends State<DashboardWidget>
       ),
       body: pages.elementAt(selectedindex),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color.fromARGB(255, 0, 24, 29),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.invert_colors),
+            backgroundColor: Colors.white,
+            icon: Icon(Icons.invert_colors, color: Colors.white,),
             label: 'Starr',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart),
+            backgroundColor: Colors.white,
+            icon: Icon(Icons.show_chart, color: Colors.white),
             label: 'Pravah',
           ),
         ],
         currentIndex: selectedindex,
+        unselectedItemColor: Colors.white,
         onTap: onTapItem,
       ),
     );
@@ -410,65 +419,66 @@ Color _getColor(double value) {
   }
 }
 
-class TopBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      child: Container(
-        height: 300.0,
-      ),
-      painter: CurvePainter(),
-    );
-  }
-}
+// class TopBar extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return CustomPaint(
+//       child: Container(
+//         height: 300.0,
+//       ),
+//       painter: CurvePainter(),
+//     );
+//   }
+// }
 
-class CurvePainter extends CustomPainter{
-  @override
-  void paint(Canvas canvas, Size size) {
-  Path path = Path();
-  Paint paint = Paint();
+// class CurvePainter extends CustomPainter{
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//   Path path = Path();
+//   Paint paint = Paint();
 
 
-  path.lineTo(0, size.height *0.75);
-  path.quadraticBezierTo(size.width* 0.10, size.height*0.70,   size.width*0.17, size.height*0.90);
-  path.quadraticBezierTo(size.width*0.20, size.height, size.width*0.25, size.height*0.90);
-  path.quadraticBezierTo(size.width*0.40, size.height*0.40, size.width*0.50, size.height*0.70);
-  path.quadraticBezierTo(size.width*0.60, size.height*0.85, size.width*0.65, size.height*0.65);
-  path.quadraticBezierTo(size.width*0.70, size.height*0.90, size.width, 0);
-  path.close();
+//   path.lineTo(0, size.height *0.25);
+//   path.quadraticBezierTo(size.width* 0.10, size.height*0.20,   size.width*0.17, size.height*0.40);
+//   path.quadraticBezierTo(size.width*0.20, size.height*0.5, size.width*0.25, size.height*0.40);
+//   path.quadraticBezierTo(size.width*0.40, size.height*0.0, size.width*0.50, size.height*0.20);
+//   path.quadraticBezierTo(size.width*0.60, size.height*0.35, size.width*0.65, size.height*0.15);
+//   path.quadraticBezierTo(size.width*0.70, size.height*0.40, size.width, 0);
+//   path.close();
 
-  paint.color = colorThree;
-  canvas.drawPath(path, paint);
+//   paint.color = colorThree;
+//   canvas.drawPath(path, paint);
 
-  path = Path();
-  path.lineTo(0, size.height*0.50);
-  path.quadraticBezierTo(size.width*0.10, size.height*0.80, size.width*0.15, size.height*0.60);
-  path.quadraticBezierTo(size.width*0.20, size.height*0.45, size.width*0.27, size.height*0.60);
-  path.quadraticBezierTo(size.width*0.45, size.height, size.width*0.50, size.height*0.80);
-  path.quadraticBezierTo(size.width*0.55, size.height*0.45, size.width*0.75, size.height*0.75);
-  path.quadraticBezierTo(size.width*0.85, size.height*0.93, size.width, size.height*0.60);
-  path.lineTo(size.width, 0);
-  path.close();
+//   path = Path();
+//   path.lineTo(0, size.height*0.20);
+//   path.quadraticBezierTo(size.width*0.10, size.height*0.30, size.width*0.15, size.height*0.10);
+//   path.quadraticBezierTo(size.width*0.20, size.height*0.0, size.width*0.27, size.height*0.10);
+//   path.quadraticBezierTo(size.width*0.45, size.height*0.50, size.width*0.50, size.height*0.30);
+//   path.quadraticBezierTo(size.width*0.55, size.height*0.0, size.width*0.75, size.height*0.25);
+//   path.quadraticBezierTo(size.width*0.85, size.height*0.43, size.width, size.height*0.10);
+//   path.lineTo(size.width, 0);
+//   path.close();
 
-  paint.color = colorTwo;
-  canvas.drawPath(path, paint);
+//   paint.color = colorTwo;
+//   canvas.drawPath(path, paint);
 
-  path =Path();
-  path.lineTo(0, size.height*0.75);
-  path.quadraticBezierTo(size.width*0.10, size.height*0.55, size.width*0.22, size.height*0.70);
-  path.quadraticBezierTo(size.width*0.30, size.height*0.90, size.width*0.40, size.height*0.75);
-  path.quadraticBezierTo(size.width*0.52, size.height*0.50, size.width*0.65, size.height*0.70);
-  path.quadraticBezierTo(size.width*0.75, size.height*0.85, size.width, size.height*0.60);
-  path.lineTo(size.width, 0);
-  path.close();
+//   path =Path();
+//   path.lineTo(0, size.height*0.25);
+//   path.quadraticBezierTo(size.width*0.10, size.height*0.5, size.width*0.22, size.height*0.20);
+//   path.quadraticBezierTo(size.width*0.30, size.height*0.40, size.width*0.40, size.height*0.25);
+//   path.quadraticBezierTo(size.width*0.52, size.height*0.0, size.width*0.65, size.height*0.20);
+//   path.quadraticBezierTo(size.width*0.75, size.height*0.35, size.width, size.height*0.10);
+//   path.lineTo(size.width, 0);
+//   path.close();
 
-  paint.color = colorOne;
-  canvas.drawPath(path, paint);
-  }
+//   paint.color = colorOne;
+//   canvas.drawPath(path, paint);
+//   }
 
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return oldDelegate != this;
-  }
+//   @override
+//   bool shouldRepaint(CustomPainter oldDelegate) {
+//     return oldDelegate != this;
+//   }
 
-}
+// }
+

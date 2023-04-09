@@ -80,7 +80,7 @@ class _CubeOrCyWidgetState extends State<CubeOrCyWidget>
       key: scaffoldKey,
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Color(0xFF1F2229),
+        backgroundColor: Color.fromARGB(255, 0, 24, 29),
         automaticallyImplyLeading: true,
         title: Text(
           'Select Tank Type',
@@ -112,7 +112,7 @@ class _CubeOrCyWidgetState extends State<CubeOrCyWidget>
                         EdgeInsetsDirectional.fromSTEB(15.0, 15.0, 15.0, 15.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color(0xFF1F2229),
+                        color: Color.fromARGB(255, 0, 24, 29),
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                       child: Column(
@@ -128,7 +128,7 @@ class _CubeOrCyWidgetState extends State<CubeOrCyWidget>
                                   .bodyText1
                                   .override(
                                     fontFamily: 'Poppins',
-                                    color: Color(0xFF7E8083),
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w500,
                                     useGoogleFonts: GoogleFonts.asMap()
@@ -197,7 +197,7 @@ class _CubeOrCyWidgetState extends State<CubeOrCyWidget>
                                 .bodyText1
                                 .override(
                                   fontFamily: 'Poppins',
-                                  color: Color(0xFF7E8083),
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 16.0,
                                   useGoogleFonts: GoogleFonts.asMap()
                                       .containsKey(FlutterFlowTheme.of(context)

@@ -59,7 +59,7 @@ class _TankSummaryWidgetState extends State<TankSummaryWidget> {
       key: scaffoldKey,
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Color(0xFF1F2229),
+        backgroundColor: Color.fromARGB(255, 0, 24, 29),
         automaticallyImplyLeading: true,
         title: Text(
           'Tank Summary',

@@ -89,7 +89,7 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
       key: scaffoldKey,
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Color(0xFF1F2229),
+        backgroundColor: Color.fromARGB(255, 0, 24, 29),
         automaticallyImplyLeading: true,
         title: Text(
           'Edit Device',
@@ -118,7 +118,7 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                       EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFF1F2229),
+                      color: Color.fromARGB(255, 0, 24, 29),
                       borderRadius: BorderRadius.circular(25.0),
                     ),
                     child: Padding(
