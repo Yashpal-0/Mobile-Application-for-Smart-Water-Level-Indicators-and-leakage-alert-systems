@@ -427,7 +427,12 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                                                   
 
                                                   context.goNamedAuth(
-                                                      'Dashboard', mounted);
+                                                      'Dashboard', mounted, queryParams:  {
+                      'water': serializeParam(
+                        _model.output,
+                        ParamType.JSON,
+                      ),
+                    }.withoutNulls,);
                                                 },
                                                 text: 'Log In',
                                                 options: FFButtonOptions(

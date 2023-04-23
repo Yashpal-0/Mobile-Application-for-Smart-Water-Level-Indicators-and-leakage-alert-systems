@@ -36,7 +36,7 @@ class _LiquidProgressState extends State<LiquidProgress> {
       backgroundColor: Colors.black,
       borderColor: Colors.white,
       borderWidth: 5.0,
-      borderRadius: 12.0,
+      borderRadius: 30.0,
       direction: Axis.vertical,
     );
   }

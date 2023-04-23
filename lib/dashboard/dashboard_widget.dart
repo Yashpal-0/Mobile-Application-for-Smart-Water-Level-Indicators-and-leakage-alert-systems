@@ -27,17 +27,17 @@ import 'dart:ui';
 import 'package:hydrow/edit_profile/edit_profile_widget.dart';
 import 'package:hydrow/edit_device/edit_device_widget.dart';
 import 'package:hydrow/tank_summary/tank_summary_widget.dart';
+import '/custom_code/actions/index.dart' as actions;
 
 class DashboardWidget extends StatefulWidget {
-  const DashboardWidget({
+  DashboardWidget({
     Key? key,
-    this.docReference,
-    this.waterLevel,
+    this.water = '0',
   }) : super(key: key);
 
   // final TankRecord? docReference;
-  final TankRecord? docReference;
-  final double? waterLevel;
+  var tankKey = FFAppState().tankKey;
+  String? water;
 
   @override
   _DashboardWidgetState createState() => _DashboardWidgetState();
@@ -93,60 +93,45 @@ class _DashboardWidgetState extends State<DashboardWidget>
     super.dispose();
   }
 
+  double CalculatePercentage(String? maxwaterLevel, double? distance) {
+    double? height = double.parse(maxwaterLevel!);
+    // double? dist = double.parse(distance!);
+
+    double percentage = (height - distance!) / height;
+    return percentage;
+  }
+
+  String? waterr;
+  void function() async {
+    _model.output = await actions.newCustomAction(
+      (currentUserDocument?.keyList?.toList() ?? []).toList(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
-    
-
+    widget.tankKey = FFAppState().tankKey;
+    // _model.output = actions.newCustomAction(
+    //   (currentUserDocument?.keyList?.toList() ?? []).toList(),
+    // );
+    function();
     List<Widget> pages = <Widget>[
       SingleChildScrollView(
-      // child: Center(
+        // child: Center(
         child: Container(
           color: Colors.black,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-
               // Center(
-                Stack(
-                children: [
-                  Container(
-                  width: double.infinity,
-                  height: 400.0,
-                  padding: EdgeInsets.all(0),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.black!,
-                        Colors.black!,
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(0.0),
-                  ),
-                  child: custom_widgets.LiquidProgress(
-                          width: 1000,
-                          height: 1000,
-                        //   param: functions.tankAPI(
-                        //       functions.calculateWaterAvailable(
-                        //           widget.docReference!.length!,
-                        //           widget.docReference!.breadth!,
-                        //           widget.docReference!.height!,
-                        //           widget.docReference!.radius!,
-                        //           widget.waterLevel,
-                        //           widget.docReference!.isCuboid!),
-                        //       functions.calculateVolume(
-                        //           widget.docReference!.isCuboid!,
-                        //           widget.docReference!.length!,
-                        //           widget.docReference!.breadth!,
-                        //           widget.docReference!.height!,
-                        //           widget.docReference!.radius!)),
-                        ),
-                ),
-                ],
-                ),
+
+              // FlutterFlowWebView(url: functions.graph(FFAppState().tankKey),
+              // bypass: false,
+              // height: 200.0,
+              // verticalScroll: false,
+              // horizontalScroll: false,
+              // ),
               // ),
               // FlutterFlowWebView(
               //           url: functions.graph(widget.docReference!.tankKey),
@@ -156,47 +141,359 @@ class _DashboardWidgetState extends State<DashboardWidget>
               //           horizontalScroll: false,
               //         ),
               // TopBar(),
-              Align(
-                alignment: Alignment.centerLeft,
-              child: FFButtonWidget(
-                onPressed: () async {
-                  _model.output = await actions.newCustomAction(
-                    (currentUserDocument?.keyList?.toList() ?? []).toList(),
-                  );
-
-                  context.pushNamed(
-                    'TankSummary',
-                    queryParams: {
-                      'water': serializeParam(
-                        _model.output,
-                        ParamType.JSON,
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 20),
+                child: StreamBuilder<List<TankRecord>>(
+                  stream: queryTankRecord(
+                    parent: currentUserReference,
+                    queryBuilder: (tankRecord) => tankRecord.where('TankKey',
+                        isEqualTo: FFAppState().tankKey),
+                    singleRecord: true,
+                  ),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 75,
+                          height: 75,
+                          child: SpinKitRipple(
+                            color: Color(0xFF7E8083),
+                            size: 75,
+                          ),
+                        ),
+                      );
+                    }
+                    List<TankRecord> containerTankRecordList = snapshot.data!;
+                    // Return an empty Container when the item does not exist.
+                    if (snapshot.data!.isEmpty) {
+                      return Container(
+                        child: Text('Select the Default Tank',
+                            style: TextStyle(color: Colors.white)),
+                      );
+                    }
+                    final containerTankRecord =
+                        containerTankRecordList.isNotEmpty
+                            ? containerTankRecordList.first
+                            : null;
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                    }.withoutNulls,
-                  );
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(containerTankRecord!.tankName!,
+                                  style: TextStyle(color: Colors.white)),
+                              Stack(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: 350.0,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10, 10, 10, 20),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.black!,
+                                          Colors.black!,
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(0.0),
+                                    ),
+                                    child: LiquidLinearProgressIndicator(
+                                      value: 0.25,
+                                      // value: _model.waterLevel!/double.parse(containerTankRecord!.height!),
+                                      // value: CalculatePercentage(containerTankRecord!.height, _model.waterLevel), // Defaults to 0.5.
+                                      valueColor: AlwaysStoppedAnimation(Colors
+                                          .blue), // Defaults to the current Theme's accentColor.
+                                      backgroundColor: Colors
+                                          .black, // Defaults to the current Theme's backgroundColor.
+                                      borderColor:
+                                          Color.fromARGB(255, 255, 255, 255),
+                                      borderWidth: 3.0,
+                                      borderRadius: 25.0,
+                                      direction: Axis
+                                          .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.horizontal.
+                                      center: Text(
+                                          valueOrDefault<String>(
+                                                  functions
+                                                      .calculateWaterAvailable(
+                                                          containerTankRecord!
+                                                              .length!,
+                                                          containerTankRecord!
+                                                              .breadth!,
+                                                          containerTankRecord!
+                                                              .height!,
+                                                          containerTankRecord!
+                                                              .radius!,
+                                                          _model.waterLevel,
+                                                          containerTankRecord!
+                                                              .isCuboid!)
+                                                      .toString(),
+                                                  '0') +
+                                              ' Litres',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                    // child: custom_widgets.LiquidProgress(
+                                    //   width: 1000,
+                                    //   height: 1000,
+                                    //     // param: functions.tankAPI(
+                                    //     //     functions.calculateWaterAvailable(
+                                    //     //         widget.docReference!.length!,
+                                    //     //         widget.docReference!.breadth!,
+                                    //     //         widget.docReference!.height!,
+                                    //     //         widget.docReference!.radius!,
+                                    //     //         widget.waterLevel,
+                                    //     //         widget.docReference!.isCuboid!),
+                                    //     //     functions.calculateVolume(
+                                    //     //         widget.docReference!.isCuboid!,
+                                    //     //         widget.docReference!.length!,
+                                    //     //         widget.docReference!.breadth!,
+                                    //     //         widget.docReference!.height!,
+                                    //     //         widget.docReference!.radius!)),
+                                    // ),
+                                  ),
+                                ],
+                              ),
 
-                  setState(() {});
-                },
-                text: 'Show all devices',
-                options: FFButtonOptions(
-                  padding: EdgeInsetsDirectional.fromSTEB(25, 25, 25, 25),
-                  iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                  color: Color.fromARGB(255, 9, 135, 185),
-                  textStyle: FlutterFlowTheme.of(context).subtitle2.override(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500,
-                        useGoogleFonts: GoogleFonts.asMap().containsKey(
-                            FlutterFlowTheme.of(context).subtitle2Family),
+                              Stack(
+                                alignment: Alignment.centerRight,
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: 30,
+                                    decoration: new BoxDecoration(
+                                      borderRadius:
+                                          new BorderRadius.circular(0.0),
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10, 0, 10, 0),
+                                    child: FFButtonWidget(
+                                      onPressed: () async {
+                                        _model.waterLevel =
+                                            await actions.callAPI(
+                                          functions.generateChannelID(
+                                              containerTankRecord!.tankKey!),
+                                          functions.generateReadAPI(
+                                              containerTankRecord!.tankKey!),
+                                        );
+                                        setState(() {});
+                                      },
+                                      text: 'Refresh',
+                                      options: FFButtonOptions(
+                                        width: 100,
+                                        height: 30,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 0, 0),
+                                        iconPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                10, 10, 10, 10),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryBtnText,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .title3
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .title3Family,
+                                              color: Color(0xFF0B0B0B),
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .title3Family),
+                                            ),
+                                        // elevation: 2,
+                                        // borderSide: BorderSide(
+                                        //   color: Colors.transparent,
+                                        //   width: 1,
+                                        // ),
+                                        // borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                                child: FlutterFlowWebView(
+                                  url: functions
+                                      .graph(containerTankRecord!.tankKey),
+                                  bypass: false,
+                                  height: 200.0,
+                                  verticalScroll: false,
+                                  horizontalScroll: false,
+                                ),
+                              ),
+
+                              // Row(
+                              //   mainAxisSize: MainAxisSize.max,
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Padding(
+                              //       padding: EdgeInsetsDirectional.fromSTEB(
+                              //           0, 10, 0, 0),
+                              //       child: Text(
+                              //         valueOrDefault<String>(
+                              //           functions
+                              //               .calculateWaterAvailable(
+                              //                   containerTankRecord!.length!,
+                              //                   containerTankRecord!.breadth!,
+                              //                   containerTankRecord!.height!,
+                              //                   containerTankRecord!.radius!,
+                              //                   _model.waterLevel,
+                              //                   containerTankRecord!.isCuboid!)
+                              //               .toString(),
+                              //           '0',
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+
+                              // Row(
+                              //   mainAxisSize: MainAxisSize.max,
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Padding(
+                              //       padding: EdgeInsetsDirectional.fromSTEB(
+                              //           0, 0, 2, 0),
+                              //       child: Text(
+                              //         'water available in',
+                              //       ),
+                              //     ),
+                              //     Padding(
+                              //       padding: EdgeInsetsDirectional.fromSTEB(
+                              //           2, 0, 0, 0),
+                              //       child: Text(
+                              //         containerTankRecord!.tankName!,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // Padding(
+                              //   padding:
+                              //       EdgeInsetsDirectional.fromSTEB(5, 10, 5, 15),
+                              //   child: FFButtonWidget(
+                              //     onPressed: () async {
+                              //       _model.waterLevel = await actions.callAPI(
+                              //         functions.generateChannelID(
+                              //             containerTankRecord!.tankKey!),
+                              //         functions.generateReadAPI(
+                              //             containerTankRecord!.tankKey!),
+                              //       );
+                              //       // setState(() {});
+                              //     },
+                              //     text: 'Refresh',
+                              //     options: FFButtonOptions(
+                              //       width: 100,
+                              //       height: 30,
+                              //       padding: EdgeInsetsDirectional.fromSTEB(
+                              //           0, 0, 0, 0),
+                              //       iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              //           0, 0, 0, 0),
+                              //       color: FlutterFlowTheme.of(context)
+                              //           .primaryBtnText,
+                              //       textStyle: FlutterFlowTheme.of(context).title3.override(
+                              //             fontFamily: FlutterFlowTheme.of(context).title3Family,
+                              //             color: Color(0xFF0B0B0B),
+                              //             useGoogleFonts: GoogleFonts.asMap().containsKey(
+                              //                 FlutterFlowTheme.of(context).title3Family),
+                              //     ),
+                              //     // elevation: 2,
+                              //     // borderSide: BorderSide(
+                              //     //   color: Colors.transparent,
+                              //     //   width: 1,
+                              //     // ),
+                              //     // borderRadius: BorderRadius.circular(8),
+                              //   ),
+                              // ),
+                              // ),
+                            ],
+                          ),
+                        ],
                       ),
+                    );
+                  },
                 ),
               ),
-              ),
+              // ListView.builder(
+              //   padding: EdgeInsets.zero,
+              //   scrollDirection: Axis.vertical,
+              //   itemCount: tanks.length,
+              //   itemBuilder: (context, tanksIndex) {
+              //     final tanksItem = tanks[tanksIndex];
+
+              //     return InkWell(
+              //       onTap: () async {
+              //         _model.outputwater = await actions.callAPI(
+              //           functions.generateChannelID(
+              //               tanksItem['TankKey'].toString()),
+              //           functions.generateReadAPI(
+              //               tanksItem['TankKey'].toString()),
+              //         );
+
               // ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                  child: FFButtonWidget(
+                    onPressed: () async {
+                      _model.output = await actions.newCustomAction(
+                        (currentUserDocument?.keyList?.toList() ?? []).toList(),
+                      );
+
+                      context.pushNamed(
+                        'TankSummary',
+                        queryParams: {
+                          'water': serializeParam(
+                            _model.output,
+                            ParamType.JSON,
+                          ),
+                        }.withoutNulls,
+                      );
+
+                      setState(() {});
+                    },
+                    text: 'Show all devices',
+                    options: FFButtonOptions(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                      iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                      color: Colors.white,
+                      textStyle: FlutterFlowTheme.of(context)
+                          .subtitle2
+                          .override(
+                            fontFamily: 'Poppins',
+                            color: Colors.black,
+                            fontSize: 14,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).subtitle2Family),
+                          ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-      // ),
+        // ),
       ),
       Icon(
         Icons.invert_colors,
@@ -205,6 +502,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
     ];
 
     return Scaffold(
+      backgroundColor: Colors.black,
       endDrawer: Drawer(
         width: 200,
         child: Container(
@@ -226,7 +524,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
                           image: AssetImage('assets/images/logo1.jpg'))),
                 ),
               ),
-              
               ListTile(
                 leading: Icon(Icons.add, color: Colors.white),
                 title:
@@ -235,10 +532,10 @@ class _DashboardWidgetState extends State<DashboardWidget>
                   context.pushNamed('AddDeviceQRScan');
                 },
               ),
-               ListTile(
+              ListTile(
                 leading: Icon(Icons.propane_tank, color: Colors.white),
                 title:
-                    Text('Primary Tank', style: TextStyle(color: Colors.white)),
+                    Text('Default Tank', style: TextStyle(color: Colors.white)),
                 onTap: () => {
                   Navigator.push(
                     context,
@@ -271,7 +568,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
                   )
                 },
               ),
-             
               ListTile(
                 leading: Icon(Icons.playlist_add_check, color: Colors.white),
                 title: Text('Terms & Conditions',
@@ -302,6 +598,10 @@ class _DashboardWidgetState extends State<DashboardWidget>
       ),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 0, 24, 29),
+        title: Text(
+          'Dashboard',
+        ),
+        centerTitle: true,
       ),
       body: pages.elementAt(selectedindex),
       bottomNavigationBar: BottomNavigationBar(
@@ -309,7 +609,10 @@ class _DashboardWidgetState extends State<DashboardWidget>
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             backgroundColor: Colors.white,
-            icon: Icon(Icons.invert_colors, color: Colors.white,),
+            icon: Icon(
+              Icons.invert_colors,
+              color: Colors.white,
+            ),
             label: 'Starr',
           ),
           BottomNavigationBarItem(

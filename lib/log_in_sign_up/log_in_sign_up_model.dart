@@ -44,6 +44,8 @@ class LogInSignUpModel extends FlutterFlowModel {
       signUpConfirmPasswordControllerValidator;
 
   double? outputwater;
+    dynamic? output;
+
 
   /// Initialization and disposal methods.
 
