@@ -187,15 +187,13 @@ class _DashboardWidgetState extends State<DashboardWidget>
                           Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Text(containerTankRecord!.tankName!,
-                                  style: TextStyle(color: Colors.white)),
                               Stack(
                                 children: [
                                   Container(
                                     width: double.infinity,
                                     height: 350.0,
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        10, 10, 10, 20),
+                                        10, 10, 10, 10),
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
@@ -209,11 +207,24 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                       borderRadius: BorderRadius.circular(0.0),
                                     ),
                                     child: LiquidLinearProgressIndicator(
-                                      value: 0.25,
-                                      // value: _model.waterLevel!/double.parse(containerTankRecord!.height!),
+                                      value: 0.75,
+                                      // value: functions.tankAPI(
+                                      //     functions.calculateWaterAvailable(
+                                      //         containerTankRecord!.length!,
+                                      //         containerTankRecord!.breadth!,
+                                      //         containerTankRecord!.height!,
+                                      //         containerTankRecord!.radius!,
+                                      //         _model.waterLevel,
+                                      //         containerTankRecord!.isCuboid!),
+                                      //     functions.calculateVolume(
+                                      //         containerTankRecord!.isCuboid!,
+                                      //         containerTankRecord!.length!,
+                                      //         containerTankRecord!.breadth!,
+                                      //         containerTankRecord!.height!,
+                                      //         containerTankRecord!.radius!)),
+                                      // // value: _model.waterLevel!/double.parse(containerTankRecord!.height!),
                                       // value: CalculatePercentage(containerTankRecord!.height, _model.waterLevel), // Defaults to 0.5.
-                                      valueColor: AlwaysStoppedAnimation(Colors
-                                          .blue), // Defaults to the current Theme's accentColor.
+                                      valueColor: AlwaysStoppedAnimation(Color.fromARGB(255, 44, 69, 99)), // Defaults to the current Theme's accentColor.
                                       backgroundColor: Colors
                                           .black, // Defaults to the current Theme's backgroundColor.
                                       borderColor:
@@ -222,28 +233,491 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                       borderRadius: 25.0,
                                       direction: Axis
                                           .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.horizontal.
-                                      center: Text(
-                                          valueOrDefault<String>(
-                                                  functions
-                                                      .calculateWaterAvailable(
-                                                          containerTankRecord!
-                                                              .length!,
-                                                          containerTankRecord!
-                                                              .breadth!,
-                                                          containerTankRecord!
-                                                              .height!,
-                                                          containerTankRecord!
-                                                              .radius!,
-                                                          _model.waterLevel,
-                                                          containerTankRecord!
-                                                              .isCuboid!)
-                                                      .toString(),
-                                                  '0') +
-                                              ' Litres',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold)),
+                                      center: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.95,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0),
+                                          borderRadius:
+                                              BorderRadius.circular(17.0),
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  15.0, 15.0, 0.0, 15.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Align(
+                                                alignment: AlignmentDirectional(
+                                                    1.0, 0.0),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 20.0, 0.0),
+                                                  child: Text(
+                                                    containerTankRecord!
+                                                        .tankName!,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyText1
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          color: Colors.white,
+                                                          fontSize: 40.0,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1Family),
+                                                        ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 5.0, 0.0, 5.0),
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.6,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromARGB(100, 0, 0, 0),
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(17.0),
+                                                      bottomRight:
+                                                          Radius.circular(17.0),
+                                                      topLeft:
+                                                          Radius.circular(17.0),
+                                                      topRight:
+                                                          Radius.circular(0.0),
+                                                    ),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Text(
+                                                              functions
+                                                                  .calculateWaterAvailable(
+                                                                      containerTankRecord!
+                                                                          .length!,
+                                                                      containerTankRecord!
+                                                                          .breadth!,
+                                                                      containerTankRecord!
+                                                                          .height!,
+                                                                      containerTankRecord!
+                                                                          .radius!,
+                                                                      _model
+                                                                          .waterLevel,
+                                                                      containerTankRecord!
+                                                                          .isCuboid!)
+                                                                  .toString(),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyText1
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    color: Color(
+                                                                        0xFF22FF00),
+                                                                    fontSize:
+                                                                        44.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    useGoogleFonts: GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            FlutterFlowTheme.of(context).bodyText1Family),
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                          Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    1.0, 0.0),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          10.0,
+                                                                          0.0),
+                                                              child: Text(
+                                                                ' L',
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Poppins',
+                                                                      color: Color(
+                                                                          0xFF22FF00),
+                                                                      fontSize:
+                                                                          44.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      useGoogleFonts: GoogleFonts
+                                                                              .asMap()
+                                                                          .containsKey(
+                                                                              FlutterFlowTheme.of(context).bodyText1Family),
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                1.0, 0.0),
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      0.0,
+                                                                      10.0,
+                                                                      0.0),
+                                                          child: Text(
+                                                            'available for use',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      14.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText1Family),
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 0.0, 0.0, 5.0),
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.4,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromARGB(120, 0, 0, 0),
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(17.0),
+                                                      bottomRight:
+                                                          Radius.circular(0.0),
+                                                      topLeft:
+                                                          Radius.circular(17.0),
+                                                      topRight:
+                                                          Radius.circular(0.0),
+                                                    ),
+                                                  ),
+                                                  child: Align(
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                            1.0, 0.0),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            Text(
+                                                              functions
+                                                                  .convertToInt(functions.tankAPI(
+                                                                      functions.calculateWaterAvailable(
+                                                                          containerTankRecord!
+                                                                              .length!,
+                                                                          containerTankRecord!
+                                                                              .breadth!,
+                                                                          containerTankRecord!
+                                                                              .height!,
+                                                                          containerTankRecord!
+                                                                              .radius!,
+                                                                          _model
+                                                                              .waterLevel,
+                                                                          containerTankRecord!
+                                                                              .isCuboid!),
+                                                                      containerTankRecord!
+                                                                          .capacity))
+                                                                  .toString(),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyText1
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    color: Color(
+                                                                        0xFF01C7B9),
+                                                                    fontSize:
+                                                                        35.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    useGoogleFonts: GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            FlutterFlowTheme.of(context).bodyText1Family),
+                                                                  ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          10.0,
+                                                                          0.0),
+                                                              child: Text(
+                                                                '%',
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Poppins',
+                                                                      color: Color(
+                                                                          0xFF01C7B9),
+                                                                      fontSize:
+                                                                          35.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      useGoogleFonts: GoogleFonts
+                                                                              .asMap()
+                                                                          .containsKey(
+                                                                              FlutterFlowTheme.of(context).bodyText1Family),
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          20.0,
+                                                                          0.0),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  Text(
+                                                                    'Tank',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Poppins',
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontSize:
+                                                                              15.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          useGoogleFonts:
+                                                                              GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                        ),
+                                                                  ),
+                                                                  Text(
+                                                                    'Filled',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Poppins',
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontSize:
+                                                                              15.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          useGoogleFonts:
+                                                                              GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                        ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.35,
+                                                decoration: BoxDecoration(
+                                                  color: Color.fromARGB(130, 0, 0, 0),
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(17.0),
+                                                    bottomRight:
+                                                        Radius.circular(0.0),
+                                                    topLeft:
+                                                        Radius.circular(17.0),
+                                                    topRight:
+                                                        Radius.circular(0.0),
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Align(
+                                                      alignment: Alignment.centerRight,
+                                                    child: 
+                                                    Padding(padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                                                    
+                                                    child: Text(
+                                                      'Total Capacity ',
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyText1
+                                                          .override(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            color: Colors.white,
+                                                            fontSize: 10.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            useGoogleFonts: GoogleFonts
+                                                                    .asMap()
+                                                                .containsKey(
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1Family),
+                                                          ),
+                                                    ),
+                                                    ),
+                                                    ),
+                                                    Padding(
+padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+child:
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                    Align(
+                                                      alignment : Alignment.centerRight,
+                                                    child: Text(
+                                                      containerTankRecord!
+                                                          .capacity!
+                                                          .toString(),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyText1
+                                                          .override(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            color: Colors.white,
+                                                            fontSize: 20.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            useGoogleFonts: GoogleFonts
+                                                                    .asMap()
+                                                                .containsKey(
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1Family),
+                                                          ),
+                                                    ),
+                                                    ),
+                                                    Align(
+                                                      alignment: Alignment.centerRight,
+                                                    child: Text(
+                                                      'L',
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyText1
+                                                          .override(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            color: Colors.white,
+                                                            fontSize: 20.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            useGoogleFonts: GoogleFonts
+                                                                    .asMap()
+                                                                .containsKey(
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1Family),
+                                                          ),
+                                                    ),
+                                                    ),
+                                                  ],
+                                                    ),
+                                                    
+                                                    ),
+                                                  ],
+                                                ),
+                                            
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                     // child: custom_widgets.LiquidProgress(
                                     //   width: 1000,

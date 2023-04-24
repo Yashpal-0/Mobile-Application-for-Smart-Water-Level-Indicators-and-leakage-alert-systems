@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
+import 'package:workmanager/workmanager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'auth/firebase_user_provider.dart';
@@ -19,6 +19,7 @@ import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,16 +31,74 @@ void main() async {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   }
   WidgetsFlutterBinding.ensureInitialized();
-  var initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  FlutterLocalNotificationsPlugin flip = FlutterLocalNotificationsPlugin();
+  var android = AndroidInitializationSettings('@mipmap/ic_launcher');
+  var iOS = DarwinInitializationSettings();
+
   var initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
-  await FlutterLocalNotificationsPlugin().initialize(initializationSettings);
+      InitializationSettings(android: android, iOS: iOS);
+  await flip.initialize(initializationSettings);
+
+  Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: true,
+  );
+
+  // Register periodic task
+  await Workmanager().registerPeriodicTask(
+    "2",
+    "simplePeriodicTask",
+    frequency: Duration(minutes: 15),
+  );
 
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
     child: MyApp(),
   ));
+}
+
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    FlutterLocalNotificationsPlugin flip = FlutterLocalNotificationsPlugin();
+
+    // Android notification settings
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+      'your channel id',
+      'your channel name',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    // iOS notification settings
+    var iOSPlatformChannelSpecifics = DarwinNotificationDetails();
+
+    var platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
+    );
+
+    
+    // Fetch data from Thingspeak
+    final response = await http.get(Uri.parse(
+        'https://api.thingspeak.com/channels/2086669/feeds.json?api_key=F0QFTNP2WB3II639&results=2'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final feeds = data['feeds'];
+      if (feeds.isNotEmpty) {
+        final value = feeds[0]['field6'];
+        await flip.show(
+          0,
+          'Field 6 Value',
+          'The value of field 6 is in BGNOTIF $value',
+          platformChannelSpecifics,
+          payload: 'Default_Sound',
+        );
+      }
+    }
+
+    return Future.value(true);
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -61,25 +120,25 @@ class _MyAppState extends State<MyApp> {
   late GoRouter _router;
 
   final authUserSub = authenticatedUserStream.listen((_) {});
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  late Timer _timer;
-  Random random = Random();
-  int randomNumber = 0;
+  // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
+  // late Timer _timer;
+  // Random random = Random();
+  // int randomNumber = 0;
 
   @override
   void initState() {
     super.initState();
     _appStateNotifier = AppStateNotifier();
     _router = createRouter(_appStateNotifier);
-    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
-      setState(() {
-        randomNumber = random.nextInt(100) + 1;
-        if (randomNumber > 50) {
-          _showNotification();
-        }
-      });
-    });
+    // _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+    //   setState(() {
+    //     randomNumber = random.nextInt(100) + 1;
+    //     if (randomNumber > 50) {
+    //       _showNotification();
+    //     }
+    //   });
+    // });
     userStream = hydrowFirebaseUserStream()
       ..listen((user) => _appStateNotifier.update(user));
     jwtTokenStream.listen((_) {});
@@ -89,28 +148,28 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Future<void> _showNotification() async {
-    var android = AndroidNotificationDetails(
-      'channel_id',
-      'Channel Name',
-      importance: Importance.max,
-      priority: Priority.high,
-      ticker: 'ticker',
-    );
-    var platform = NotificationDetails(android: android);
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'Random Number',
-      'The generated number is $randomNumber',
-      platform,
-      payload: 'Welcome to the Local Notification demo',
-    );
-  }
+  // Future<void> _showNotification() async {
+  //   var android = AndroidNotificationDetails(
+  //     'channel_id',
+  //     'Channel Name',
+  //     importance: Importance.max,
+  //     priority: Priority.high,
+  //     ticker: 'ticker',
+  //   );
+  //   var platform = NotificationDetails(android: android);
+  //   await flutterLocalNotificationsPlugin.show(
+  //     0,
+  //     'Random Number',
+  //     'The generated number is $randomNumber',
+  //     platform,
+  //     payload: 'Welcome to the Local Notification demo',
+  //   );
+  // }
 
   @override
   void dispose() {
     authUserSub.cancel();
-    _timer.cancel();
+    // _timer.cancel();
     super.dispose();
   }
 
