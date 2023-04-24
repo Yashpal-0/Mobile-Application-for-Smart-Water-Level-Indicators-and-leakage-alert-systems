@@ -44,7 +44,7 @@ class _ContactUsWidgetState extends State<ContactUsWidget> {
       width: 400.0,
       height: 400.0,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.black,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -59,6 +59,7 @@ class _ContactUsWidgetState extends State<ContactUsWidget> {
                   'Contact Us',
                   style: FlutterFlowTheme.of(context).bodyText1.override(
                         fontFamily: 'Poppins',
+                        color: Colors.white,
                         fontSize: 28.0,
                         useGoogleFonts: GoogleFonts.asMap().containsKey(
                             FlutterFlowTheme.of(context).bodyText1Family),
@@ -72,6 +73,7 @@ class _ContactUsWidgetState extends State<ContactUsWidget> {
             style: FlutterFlowTheme.of(context).bodyText1.override(
                   fontFamily: 'Poppins',
                   fontSize: 17.0,
+                  color: Colors.white,
                   fontWeight: FontWeight.w600,
                   useGoogleFonts: GoogleFonts.asMap().containsKey(
                       FlutterFlowTheme.of(context).bodyText1Family),
@@ -82,6 +84,7 @@ class _ContactUsWidgetState extends State<ContactUsWidget> {
             style: FlutterFlowTheme.of(context).bodyText1.override(
                   fontFamily: 'Poppins',
                   fontSize: 16.0,
+                  color: Colors.white,
                   fontWeight: FontWeight.w500,
                   useGoogleFonts: GoogleFonts.asMap().containsKey(
                       FlutterFlowTheme.of(context).bodyText1Family),
@@ -92,11 +95,19 @@ class _ContactUsWidgetState extends State<ContactUsWidget> {
             style: FlutterFlowTheme.of(context).bodyText1.override(
                   fontFamily: 'Poppins',
                   fontSize: 16.0,
+                  color: Colors.white,
                   fontWeight: FontWeight.w500,
                   useGoogleFonts: GoogleFonts.asMap().containsKey(
                       FlutterFlowTheme.of(context).bodyText1Family),
                 ),
           ),
+          Container(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Go back!'),
+        ),)
         ],
       ),
     );

@@ -2,7 +2,6 @@ import '/auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/about_widget.dart';
 import '/components/contact_us_widget.dart';
-import '/components/dev_info_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
