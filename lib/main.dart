@@ -90,7 +90,7 @@ void callbackDispatcher() {
         await flip.show(
           0,
           'Field 6 Value',
-          'The value of field 6 is in BGNOTIF $value',
+          'The value of field 6 is $value',
           platformChannelSpecifics,
           payload: 'Default_Sound',
         );
