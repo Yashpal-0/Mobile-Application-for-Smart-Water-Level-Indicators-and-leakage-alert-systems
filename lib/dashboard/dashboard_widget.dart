@@ -207,21 +207,21 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                       borderRadius: BorderRadius.circular(0.0),
                                     ),
                                     child: LiquidLinearProgressIndicator(
-                                      value: 0.75,
-                                      // value: functions.tankAPI(
-                                      //     functions.calculateWaterAvailable(
-                                      //         containerTankRecord!.length!,
-                                      //         containerTankRecord!.breadth!,
-                                      //         containerTankRecord!.height!,
-                                      //         containerTankRecord!.radius!,
-                                      //         _model.waterLevel,
-                                      //         containerTankRecord!.isCuboid!),
-                                      //     functions.calculateVolume(
-                                      //         containerTankRecord!.isCuboid!,
-                                      //         containerTankRecord!.length!,
-                                      //         containerTankRecord!.breadth!,
-                                      //         containerTankRecord!.height!,
-                                      //         containerTankRecord!.radius!)),
+                                      // value: 0.75,
+                                      value: functions.tankAPI(
+                                          functions.calculateWaterAvailable(
+                                              containerTankRecord!.length!,
+                                              containerTankRecord!.breadth!,
+                                              containerTankRecord!.height!,
+                                              containerTankRecord!.radius!,
+                                              _model.waterLevel,
+                                              containerTankRecord!.isCuboid!),
+                                          functions.calculateVolume(
+                                              containerTankRecord!.isCuboid!,
+                                              containerTankRecord!.length!,
+                                              containerTankRecord!.breadth!,
+                                              containerTankRecord!.height!,
+                                              containerTankRecord!.radius!)),
                                       // // value: _model.waterLevel!/double.parse(containerTankRecord!.height!),
                                       // value: CalculatePercentage(containerTankRecord!.height, _model.waterLevel), // Defaults to 0.5.
                                       valueColor: AlwaysStoppedAnimation(
@@ -1164,49 +1164,49 @@ class AddDevices extends StatelessWidget {
   }
 }
 
-class SecondRoute_ds extends StatelessWidget {
-  const SecondRoute_ds({super.key});
+// class SecondRoute_ds extends StatelessWidget {
+//   const SecondRoute_ds({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Device Settings'),
-        backgroundColor: Colors.black,
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Go back!'),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Device Settings'),
+//         backgroundColor: Colors.black,
+//       ),
+//       body: Center(
+//         child: ElevatedButton(
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//           child: const Text('Go back!'),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-class SecondRoute_pt extends StatelessWidget {
-  const SecondRoute_pt({super.key});
+// class SecondRoute_pt extends StatelessWidget {
+//   const SecondRoute_pt({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Primary Tank'),
-        backgroundColor: Colors.black,
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Go back!'),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Primary Tank'),
+//         backgroundColor: Colors.black,
+//       ),
+//       body: Center(
+//         child: ElevatedButton(
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//           child: const Text('Go back!'),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // class SecondRoute_tc extends StatelessWidget {
 //   const SecondRoute_tc({super.key});
@@ -1230,19 +1230,19 @@ class SecondRoute_pt extends StatelessWidget {
 //   }
 // }
 
-Color _getColor(double value) {
-  if (value >= 0.8) {
-    return Colors.blue[900]!;
-  } else if (value >= 0.6) {
-    return Colors.blue[700]!;
-  } else if (value >= 0.4) {
-    return Colors.blue[500]!;
-  } else if (value >= 0.2) {
-    return Colors.blue[300]!;
-  } else {
-    return Colors.blue[200]!;
-  }
-}
+// Color _getColor(double value) {
+//   if (value >= 0.8) {
+//     return Colors.blue[900]!;
+//   } else if (value >= 0.6) {
+//     return Colors.blue[700]!;
+//   } else if (value >= 0.4) {
+//     return Colors.blue[500]!;
+//   } else if (value >= 0.2) {
+//     return Colors.blue[300]!;
+//   } else {
+//     return Colors.blue[200]!;
+//   }
+// }
 
 // class TopBar extends StatelessWidget {
 //   @override
