@@ -116,6 +116,7 @@ class _IndividualSummaryWidgetState extends State<IndividualSummaryWidget>
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         20.0, 20.0, 20.0, 20.0),
                                     child: Text(
+                                      //Showing tank name
                                       widget.docReference!.tankName!,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
@@ -160,6 +161,7 @@ class _IndividualSummaryWidgetState extends State<IndividualSummaryWidget>
                         child: custom_widgets.LiquidProgress(
                           width: 1000.0,
                           height: 1000.0,
+                          //Calling tankAPI to calculate the water available in the tank in percentage
                           param: functions.tankAPI(
                               functions.calculateWaterAvailable(
                                   widget.docReference!.length!,
@@ -301,6 +303,7 @@ class _IndividualSummaryWidgetState extends State<IndividualSummaryWidget>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
+                                  //Calculating water available in litres
                                   functions
                                       .calculateWaterAvailable(
                                           widget.docReference!.length!,
@@ -392,6 +395,7 @@ class _IndividualSummaryWidgetState extends State<IndividualSummaryWidget>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
+                                  //Calculating total tank volume
                                   functions
                                       .calculateVolume(
                                           widget.docReference!.isCuboid!,

@@ -133,6 +133,7 @@ class _AddDeviceWidgetState extends State<AddDeviceWidget>
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       15.0, 15.0, 15.0, 15.0),
                                   child: Text(
+                                    //Selecting the tank type
                                     'Tank Type: ',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyText1
@@ -256,6 +257,7 @@ class _AddDeviceWidgetState extends State<AddDeviceWidget>
                                     .asValidator(context),
                               ),
                             ),
+                            //Cuboidal tank datas to be entered
                             if (widget.isCuboid ?? true)
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -498,6 +500,7 @@ class _AddDeviceWidgetState extends State<AddDeviceWidget>
                                     .asValidator(context),
                               ),
                             ),
+                            //non cuboidal tank data to be entered
                             if (!widget.isCuboid!)
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -604,6 +607,7 @@ class _AddDeviceWidgetState extends State<AddDeviceWidget>
                                     ),
                                   ),
                                   Text(
+                                    //Calculating the volume of the tank
                                     functions
                                         .calculateVolume(
                                             widget.isCuboid!,
@@ -638,7 +642,7 @@ class _AddDeviceWidgetState extends State<AddDeviceWidget>
                                           .validate()) {
                                     return;
                                   }
-
+                                  //Pushing the tank data to backend
                                   final tankCreateData = createTankRecordData(
                                     tankName: _model.textController1.text,
                                     length: _model.textController2.text,
