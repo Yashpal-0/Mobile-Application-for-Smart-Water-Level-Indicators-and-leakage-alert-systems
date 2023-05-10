@@ -36,6 +36,7 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
 
+// Fade effect while opening the page.
   final animationsMap = {
     'columnOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -85,6 +86,7 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
+// main designing and functioning block of the page.
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.black,
@@ -106,6 +108,8 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
         centerTitle: true,
         elevation: 2.0,
       ),
+
+      // Main body of the page.
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
@@ -130,6 +134,8 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 15.0, 15.0, 15.0, 15.0),
+
+                            // shows the default tank type which was selected.
                             child: Text(
                               'Tank Type: ',
                               style: FlutterFlowTheme.of(context)
@@ -171,6 +177,8 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                     ),
                   ),
                 ),
+
+                // Fields that can be edited.
                 Form(
                   key: _model.formKey,
                   autovalidateMode: AutovalidateMode.disabled,
@@ -257,6 +265,8 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                                 .asValidator(context),
                           ),
                         ),
+
+                        // Dimensions for the CUBOID tank to be edited.
                         if (widget.tankReference!.isCuboid ?? true)
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
@@ -266,6 +276,7 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                               autofocus: true,
                               obscureText: false,
                               decoration: InputDecoration(
+                                // LENGTH
                                 labelText: 'Length (in cm)',
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .bodyText1
@@ -346,6 +357,7 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                               autofocus: true,
                               obscureText: false,
                               decoration: InputDecoration(
+                                // BREADTH
                                 labelText: 'Breadth (in cm)',
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .bodyText1
@@ -425,6 +437,7 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                             autofocus: true,
                             obscureText: false,
                             decoration: InputDecoration(
+                              // HEIGHT for both the tank types.
                               labelText: 'Height (in cm)',
                               labelStyle: FlutterFlowTheme.of(context)
                                   .bodyText1
@@ -496,6 +509,8 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                                 .asValidator(context),
                           ),
                         ),
+
+                        // Editing radius for the tank type - CYLINDER.
                         if (!widget.tankReference!.isCuboid!)
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
@@ -575,6 +590,8 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                                   .asValidator(context),
                             ),
                           ),
+
+                        // Represenation of the volume of water in litres.
                         Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -600,6 +617,8 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                                         ),
                                   ),
                                 ),
+
+                                // function calculating volume of water.
                                 Text(
                                   functions
                                       .calculateVolume(
@@ -635,6 +654,7 @@ class _CuboidalTankEditWidgetState extends State<CuboidalTankEditWidget>
                                     return;
                                   }
 
+                                // Sending the updated data to backend.
                                   final tankUpdateData = createTankRecordData(
                                     tankName: _model.textController1.text,
                                     tankKey: widget.tankReference!.tankKey,

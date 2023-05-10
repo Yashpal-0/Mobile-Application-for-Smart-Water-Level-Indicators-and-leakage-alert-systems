@@ -29,6 +29,7 @@ class _EditDeviceWidgetState extends State<EditDeviceWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
 
+// Fade effect while opening the page.
   final animationsMap = {
     'containerOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -74,6 +75,7 @@ class _EditDeviceWidgetState extends State<EditDeviceWidget>
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
+// Main designing block of the page.
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.black,
@@ -120,6 +122,8 @@ class _EditDeviceWidgetState extends State<EditDeviceWidget>
                         ),
                       );
                     }
+
+                    // Fetching the list of all the tanks(devices) connected with edit and delete options.
                     List<TankRecord> listViewTankRecordList = snapshot.data!;
                     return ListView.builder(
                       padding: EdgeInsets.zero,

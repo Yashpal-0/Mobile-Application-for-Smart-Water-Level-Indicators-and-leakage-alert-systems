@@ -29,6 +29,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
 
+// Fade effect while opening the page.
   final animationsMap = {
     'containerOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -70,7 +71,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
-
+// Main designing block of the page.
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.black,
@@ -136,6 +137,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                                         ),
                                   ),
                                 ),
+                                // Will show the current user email.
                                 Text(
                                   currentUserEmail,
                                   style: FlutterFlowTheme.of(context)
@@ -153,6 +155,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                                 ),
                               ],
                             ),
+                            // Fetching, displaying and editing of the name of the user.
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   10.0, 10.0, 10.0, 15.0),
@@ -233,6 +236,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                                 ),
                               ),
                             ),
+
+                            // Fetching, displaying and editing of the phone number.
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   10.0, 0.0, 10.0, 15.0),
@@ -315,6 +320,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget>
                             ),
                           ],
                         ),
+
+                        // BUTTON for saving the changes.
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 15.0),

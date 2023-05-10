@@ -30,6 +30,7 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
 
+// Fade effect while opening the page.
   final animationsMap = {
     'tabBarOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -55,6 +56,7 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
       await actions.lockOrientation();
     });
 
+// Declaring different variables for different fields.
     _model.logInEmailController ??= TextEditingController();
     _model.logInPasswordController ??= TextEditingController();
     _model.userNameController ??= TextEditingController();
@@ -76,6 +78,7 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
+// Main design and function block of the page.
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.black,
@@ -97,7 +100,7 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                     child: Stack(
                       children: [
                         Image.asset(
-                          'assets/images/hero-bg1.jpg',
+                          'assets/images/hero-bg1.jpg',   //Background image
                           width: 1500,
                           height: 900,
                           fit: BoxFit.cover,
@@ -127,7 +130,7 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                                     indicatorColor: Color(0xFF7E8083),
                                     tabs: [
                                       Tab(
-                                        text: 'Log In',
+                                        text: 'Log In',  
                                       ),
                                       Tab(
                                         text: 'Sign Up',
@@ -137,6 +140,8 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                                   Expanded(
                                     child: TabBarView(
                                       children: [
+
+                                        // LOGIN Details to be entered.
                                         Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -146,6 +151,8 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       10.0, 20.0, 10.0, 10.0),
+
+                                                      
                                               child: TextFormField(
                                                 controller:
                                                     _model.logInEmailController,
@@ -412,6 +419,8 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                                                   GoRouter.of(context)
                                                       .prepareAuthEvent();
 
+                                                      // User logged In successfully or not.
+
                                                   final user =
                                                       await signInWithEmail(
                                                     context,
@@ -421,11 +430,13 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                                                         .logInPasswordController
                                                         .text,
                                                   );
+
+                                                  
                                                   if (user == null) {
                                                     return;
                                                   }
                                                   
-
+                                                  // If already logged In ,redirect to the dashboard directly.
                                                   context.goNamedAuth(
                                                       'Dashboard', mounted, queryParams:  {
                       'water': serializeParam(
@@ -481,11 +492,15 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                                               ),
                                               showLoadingIndicator: true,
                                               onPressed: () {
+
+                                                // LOGIN Button.
                                                 print('IconButton pressed ...');
                                               },
                                             ),
                                           ],
                                         ),
+
+                                        // SIGN UP details to be entered.
                                         SingleChildScrollView(
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
@@ -1066,6 +1081,8 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                                                   onPressed: () async {
                                                     GoRouter.of(context)
                                                         .prepareAuthEvent();
+
+                                                        // Matching the passwords.
                                                     if (_model
                                                             .signUpPasswordController
                                                             .text !=
@@ -1083,7 +1100,8 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                                                       );
                                                       return;
                                                     }
-
+                                                  
+                                                  // Pushing account details to the backend.
                                                     final user =
                                                         await createAccountWithEmail(
                                                       context,
@@ -1145,6 +1163,8 @@ class _LogInSignUpWidgetState extends State<LogInSignUpWidget>
                                                           mounted);
                                                     }
                                                   },
+
+                                                  // SIGN UP Button
                                                   text: 'Sign Up',
                                                   options: FFButtonOptions(
                                                     width: 130.0,

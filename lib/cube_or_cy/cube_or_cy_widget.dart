@@ -31,6 +31,7 @@ class _CubeOrCyWidgetState extends State<CubeOrCyWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
 
+// Fade effect while opening the page.
   final animationsMap = {
     'containerOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -76,6 +77,7 @@ class _CubeOrCyWidgetState extends State<CubeOrCyWidget>
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
+// Main designing block of the page.
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.black,
@@ -98,6 +100,8 @@ class _CubeOrCyWidgetState extends State<CubeOrCyWidget>
         centerTitle: true,
         elevation: 2.0,
       ),
+
+      // Selecting tha tank type.
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
