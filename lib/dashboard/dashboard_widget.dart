@@ -35,7 +35,7 @@ class DashboardWidget extends StatefulWidget {
     this.water = '0',
   }) : super(key: key);
 
-  // final TankRecord? docReference;
+  // Getting the default tank and giving the key to tankKey variable.
   var tankKey = FFAppState().tankKey;
   String? water;
 
@@ -44,9 +44,6 @@ class DashboardWidget extends StatefulWidget {
 }
 
 int selectedindex = 0;
-Color colorOne = Colors.blue[300]!;
-Color colorTwo = Colors.blue[200]!;
-Color colorThree = Colors.blue[100]!;
 
 final appTheme = ThemeData(
   primarySwatch: Colors.red,
@@ -93,57 +90,25 @@ class _DashboardWidgetState extends State<DashboardWidget>
     super.dispose();
   }
 
-  double CalculatePercentage(String? maxwaterLevel, double? distance) {
-    double? height = double.parse(maxwaterLevel!);
-    // double? dist = double.parse(distance!);
+  
 
-    double percentage = (height - distance!) / height;
-    return percentage;
-  }
-
-  String? waterr;
-  void function() async {
-    _model.output = await actions.newCustomAction(
-      (currentUserDocument?.keyList?.toList() ?? []).toList(),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+    //Giving the Default tank key to widget tankKey
     widget.tankKey = FFAppState().tankKey;
-    // _model.output = actions.newCustomAction(
-    //   (currentUserDocument?.keyList?.toList() ?? []).toList(),
-    // );
-    function();
     List<Widget> pages = <Widget>[
       SingleChildScrollView(
-        // child: Center(
         child: Container(
           color: Colors.black,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              // Center(
-
-              // FlutterFlowWebView(url: functions.graph(FFAppState().tankKey),
-              // bypass: false,
-              // height: 200.0,
-              // verticalScroll: false,
-              // horizontalScroll: false,
-              // ),
-              // ),
-              // FlutterFlowWebView(
-              //           url: functions.graph(widget.docReference!.tankKey),
-              //           bypass: false,
-              //           height: 200.0,
-              //           verticalScroll: false,
-              //           horizontalScroll: false,
-              //         ),
-              // TopBar(),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 20),
                 child: StreamBuilder<List<TankRecord>>(
+                  //Fetching the tank record of the default tank
                   stream: queryTankRecord(
                     parent: currentUserReference,
                     queryBuilder: (tankRecord) => tankRecord.where('TankKey',
@@ -176,6 +141,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         containerTankRecordList.isNotEmpty
                             ? containerTankRecordList.first
                             : null;
+                    //If data found return the Water tank container
                     return Container(
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -206,8 +172,10 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                       shape: BoxShape.rectangle,
                                       borderRadius: BorderRadius.circular(0.0),
                                     ),
+                                    //Liquid linear progress indicator 
                                     child: LiquidLinearProgressIndicator(
                                       // value: 0.75,
+                                      //Calculating the water level in range of 0-1 for widget value
                                       value: functions.tankAPI(
                                           functions.calculateWaterAvailable(
                                               containerTankRecord!.length!,
@@ -222,8 +190,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                               containerTankRecord!.breadth!,
                                               containerTankRecord!.height!,
                                               containerTankRecord!.radius!)),
-                                      // // value: _model.waterLevel!/double.parse(containerTankRecord!.height!),
-                                      // value: CalculatePercentage(containerTankRecord!.height, _model.waterLevel), // Defaults to 0.5.
                                       valueColor: AlwaysStoppedAnimation(
                                           Color.fromARGB(255, 44, 69,
                                               99)), // Defaults to the current Theme's accentColor.
@@ -323,6 +289,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                                             alignment: Alignment
                                                                 .center,
                                                             child: Text(
+                                                              //Creating a text of total water available in the tank
                                                               functions
                                                                   .calculateWaterAvailable(
                                                                       containerTankRecord!
@@ -475,6 +442,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                                                   .end,
                                                           children: [
                                                             Text(
+                                                              //Calculating percentage of water filled in the tank
                                                               functions
                                                                   .convertToInt(functions.tankAPI(
                                                                       functions.calculateWaterAvailable(
@@ -680,6 +648,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                                             alignment: Alignment
                                                                 .centerRight,
                                                             child: Text(
+                                                              //Total Capacity of the tank
                                                               containerTankRecord!
                                                                   .capacity!
                                                                   .toString(),
@@ -739,24 +708,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                         ),
                                       ),
                                     ),
-                                    // child: custom_widgets.LiquidProgress(
-                                    //   width: 1000,
-                                    //   height: 1000,
-                                    //     // param: functions.tankAPI(
-                                    //     //     functions.calculateWaterAvailable(
-                                    //     //         widget.docReference!.length!,
-                                    //     //         widget.docReference!.breadth!,
-                                    //     //         widget.docReference!.height!,
-                                    //     //         widget.docReference!.radius!,
-                                    //     //         widget.waterLevel,
-                                    //     //         widget.docReference!.isCuboid!),
-                                    //     //     functions.calculateVolume(
-                                    //     //         widget.docReference!.isCuboid!,
-                                    //     //         widget.docReference!.length!,
-                                    //     //         widget.docReference!.breadth!,
-                                    //     //         widget.docReference!.height!,
-                                    //     //         widget.docReference!.radius!)),
-                                    // ),
                                   ),
                                 ],
                               ),
@@ -778,6 +729,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                         10, 0, 10, 0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
+                                        //Calling the api to fetch the water level from the tank
                                         _model.waterLevel =
                                             await actions.callAPI(
                                           functions.generateChannelID(
@@ -812,12 +764,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                                                   context)
                                                               .title3Family),
                                             ),
-                                        // elevation: 2,
-                                        // borderSide: BorderSide(
-                                        //   color: Colors.transparent,
-                                        //   width: 1,
-                                        // ),
-                                        // borderRadius: BorderRadius.circular(8),
                                       ),
                                     ),
                                   ),
@@ -826,6 +772,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                               Padding(
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                                    //Fetching the graph
                                 child: FlutterFlowWebView(
                                   url: functions
                                       .graph(containerTankRecord!.tankKey),
@@ -836,89 +783,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                 ),
                               ),
 
-                              // Row(
-                              //   mainAxisSize: MainAxisSize.max,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Padding(
-                              //       padding: EdgeInsetsDirectional.fromSTEB(
-                              //           0, 10, 0, 0),
-                              //       child: Text(
-                              //         valueOrDefault<String>(
-                              //           functions
-                              //               .calculateWaterAvailable(
-                              //                   containerTankRecord!.length!,
-                              //                   containerTankRecord!.breadth!,
-                              //                   containerTankRecord!.height!,
-                              //                   containerTankRecord!.radius!,
-                              //                   _model.waterLevel,
-                              //                   containerTankRecord!.isCuboid!)
-                              //               .toString(),
-                              //           '0',
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-
-                              // Row(
-                              //   mainAxisSize: MainAxisSize.max,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Padding(
-                              //       padding: EdgeInsetsDirectional.fromSTEB(
-                              //           0, 0, 2, 0),
-                              //       child: Text(
-                              //         'water available in',
-                              //       ),
-                              //     ),
-                              //     Padding(
-                              //       padding: EdgeInsetsDirectional.fromSTEB(
-                              //           2, 0, 0, 0),
-                              //       child: Text(
-                              //         containerTankRecord!.tankName!,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // Padding(
-                              //   padding:
-                              //       EdgeInsetsDirectional.fromSTEB(5, 10, 5, 15),
-                              //   child: FFButtonWidget(
-                              //     onPressed: () async {
-                              //       _model.waterLevel = await actions.callAPI(
-                              //         functions.generateChannelID(
-                              //             containerTankRecord!.tankKey!),
-                              //         functions.generateReadAPI(
-                              //             containerTankRecord!.tankKey!),
-                              //       );
-                              //       // setState(() {});
-                              //     },
-                              //     text: 'Refresh',
-                              //     options: FFButtonOptions(
-                              //       width: 100,
-                              //       height: 30,
-                              //       padding: EdgeInsetsDirectional.fromSTEB(
-                              //           0, 0, 0, 0),
-                              //       iconPadding: EdgeInsetsDirectional.fromSTEB(
-                              //           0, 0, 0, 0),
-                              //       color: FlutterFlowTheme.of(context)
-                              //           .primaryBtnText,
-                              //       textStyle: FlutterFlowTheme.of(context).title3.override(
-                              //             fontFamily: FlutterFlowTheme.of(context).title3Family,
-                              //             color: Color(0xFF0B0B0B),
-                              //             useGoogleFonts: GoogleFonts.asMap().containsKey(
-                              //                 FlutterFlowTheme.of(context).title3Family),
-                              //     ),
-                              //     // elevation: 2,
-                              //     // borderSide: BorderSide(
-                              //     //   color: Colors.transparent,
-                              //     //   width: 1,
-                              //     // ),
-                              //     // borderRadius: BorderRadius.circular(8),
-                              //   ),
-                              // ),
-                              // ),
                             ],
                           ),
                         ],
@@ -927,28 +791,12 @@ class _DashboardWidgetState extends State<DashboardWidget>
                   },
                 ),
               ),
-              // ListView.builder(
-              //   padding: EdgeInsets.zero,
-              //   scrollDirection: Axis.vertical,
-              //   itemCount: tanks.length,
-              //   itemBuilder: (context, tanksIndex) {
-              //     final tanksItem = tanks[tanksIndex];
-
-              //     return InkWell(
-              //       onTap: () async {
-              //         _model.outputwater = await actions.callAPI(
-              //           functions.generateChannelID(
-              //               tanksItem['TankKey'].toString()),
-              //           functions.generateReadAPI(
-              //               tanksItem['TankKey'].toString()),
-              //         );
-
-              // ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                   child: FFButtonWidget(
+                    //Upon clicking the show all devices it will redirect to TankSummary page
                     onPressed: () async {
                       _model.output = await actions.newCustomAction(
                         (currentUserDocument?.keyList?.toList() ?? []).toList(),
@@ -997,6 +845,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
 
     return Scaffold(
       backgroundColor: Colors.black,
+      //End drawer
       endDrawer: Drawer(
         width: 200,
         child: Container(
@@ -1011,6 +860,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                     '',
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
+                  //Box decoration for Hydrow Logo
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 0, 24, 29),
                       image: DecorationImage(
@@ -1018,6 +868,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                           image: AssetImage('assets/images/logo1.jpg'))),
                 ),
               ),
+              //Tiles List
               ListTile(
                 leading: Icon(Icons.add, color: Colors.white),
                 title:
@@ -1118,6 +969,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
           ),
         ),
       ),
+      //App bar
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 0, 24, 29),
         title: Text(
@@ -1125,7 +977,9 @@ class _DashboardWidgetState extends State<DashboardWidget>
         ),
         centerTitle: true,
       ),
+      //It will select the Starr or Pravah dashboard based of selectedindex value
       body: pages.elementAt(selectedindex),
+      //Bottom navigation bar of Starr and Pravah
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color.fromARGB(255, 0, 24, 29),
         items: const <BottomNavigationBarItem>[
@@ -1149,7 +1003,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
       ),
     );
   }
-
+//Switching of index value upon clicking
   void onTapItem(int index) {
     setState(() {
       selectedindex = index;
@@ -1163,147 +1017,3 @@ class AddDevices extends StatelessWidget {
     return (Drawer());
   }
 }
-
-// class SecondRoute_ds extends StatelessWidget {
-//   const SecondRoute_ds({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Device Settings'),
-//         backgroundColor: Colors.black,
-//       ),
-//       body: Center(
-//         child: ElevatedButton(
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//           child: const Text('Go back!'),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class SecondRoute_pt extends StatelessWidget {
-//   const SecondRoute_pt({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Primary Tank'),
-//         backgroundColor: Colors.black,
-//       ),
-//       body: Center(
-//         child: ElevatedButton(
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//           child: const Text('Go back!'),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class SecondRoute_tc extends StatelessWidget {
-//   const SecondRoute_tc({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Terms and Conditions'),
-//         backgroundColor: Colors.black,
-//       ),
-//       body: Center(
-//         child: ElevatedButton(
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//           child: const Text('Go back!'),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// Color _getColor(double value) {
-//   if (value >= 0.8) {
-//     return Colors.blue[900]!;
-//   } else if (value >= 0.6) {
-//     return Colors.blue[700]!;
-//   } else if (value >= 0.4) {
-//     return Colors.blue[500]!;
-//   } else if (value >= 0.2) {
-//     return Colors.blue[300]!;
-//   } else {
-//     return Colors.blue[200]!;
-//   }
-// }
-
-// class TopBar extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return CustomPaint(
-//       child: Container(
-//         height: 300.0,
-//       ),
-//       painter: CurvePainter(),
-//     );
-//   }
-// }
-
-// class CurvePainter extends CustomPainter{
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//   Path path = Path();
-//   Paint paint = Paint();
-
-
-//   path.lineTo(0, size.height *0.25);
-//   path.quadraticBezierTo(size.width* 0.10, size.height*0.20,   size.width*0.17, size.height*0.40);
-//   path.quadraticBezierTo(size.width*0.20, size.height*0.5, size.width*0.25, size.height*0.40);
-//   path.quadraticBezierTo(size.width*0.40, size.height*0.0, size.width*0.50, size.height*0.20);
-//   path.quadraticBezierTo(size.width*0.60, size.height*0.35, size.width*0.65, size.height*0.15);
-//   path.quadraticBezierTo(size.width*0.70, size.height*0.40, size.width, 0);
-//   path.close();
-
-//   paint.color = colorThree;
-//   canvas.drawPath(path, paint);
-
-//   path = Path();
-//   path.lineTo(0, size.height*0.20);
-//   path.quadraticBezierTo(size.width*0.10, size.height*0.30, size.width*0.15, size.height*0.10);
-//   path.quadraticBezierTo(size.width*0.20, size.height*0.0, size.width*0.27, size.height*0.10);
-//   path.quadraticBezierTo(size.width*0.45, size.height*0.50, size.width*0.50, size.height*0.30);
-//   path.quadraticBezierTo(size.width*0.55, size.height*0.0, size.width*0.75, size.height*0.25);
-//   path.quadraticBezierTo(size.width*0.85, size.height*0.43, size.width, size.height*0.10);
-//   path.lineTo(size.width, 0);
-//   path.close();
-
-//   paint.color = colorTwo;
-//   canvas.drawPath(path, paint);
-
-//   path =Path();
-//   path.lineTo(0, size.height*0.25);
-//   path.quadraticBezierTo(size.width*0.10, size.height*0.5, size.width*0.22, size.height*0.20);
-//   path.quadraticBezierTo(size.width*0.30, size.height*0.40, size.width*0.40, size.height*0.25);
-//   path.quadraticBezierTo(size.width*0.52, size.height*0.0, size.width*0.65, size.height*0.20);
-//   path.quadraticBezierTo(size.width*0.75, size.height*0.35, size.width, size.height*0.10);
-//   path.lineTo(size.width, 0);
-//   path.close();
-
-//   paint.color = colorOne;
-//   canvas.drawPath(path, paint);
-//   }
-
-//   @override
-//   bool shouldRepaint(CustomPainter oldDelegate) {
-//     return oldDelegate != this;
-//   }
-
-// }
-
