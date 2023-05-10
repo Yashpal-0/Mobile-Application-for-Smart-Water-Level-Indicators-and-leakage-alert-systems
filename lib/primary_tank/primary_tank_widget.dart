@@ -112,7 +112,7 @@ class _PrimaryTankWidgetState extends State<PrimaryTankWidget>
                     ),
                   ),
                 );
-              }
+              } //Fetching the tank record list
               List<TankRecord> listViewTankRecordList = snapshot.data!;
               return ListView.builder(
                 padding: EdgeInsets.zero,
@@ -132,6 +132,7 @@ class _PrimaryTankWidgetState extends State<PrimaryTankWidget>
                       ),
                       child: InkWell(
                         onTap: () async {
+                          //Upon clicking on the tank it changes the default tankkey saved in FFAppState() to the selected tankKey
                           FFAppState().update(() {
                             FFAppState().tankKey = listViewTankRecord.tankKey!;
                           });

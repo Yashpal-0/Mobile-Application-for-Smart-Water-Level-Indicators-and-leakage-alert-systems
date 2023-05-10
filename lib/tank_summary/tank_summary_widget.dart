@@ -81,6 +81,7 @@ class _TankSummaryWidgetState extends State<TankSummaryWidget> {
           onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Builder(
             builder: (context) {
+              //Getting all the tanks
               final tanks = getJsonField(
                 widget.water,
                 r'''$.tanks''',
